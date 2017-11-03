@@ -1,4 +1,4 @@
-<?php>
+<?php
 $hostname = "sql.njit.edu";
 $username = "rk633";
 $password = "rajeshwari22"
