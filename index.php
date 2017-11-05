@@ -7,7 +7,11 @@ try
 {
    $conn = new PDO("mysql:host=$hostname;dbname=rk633",$username, $password);
    echo "Connection Successful<br>";
-   runQuery();
+   $query = "Select * from accounts where id<6";
+   $res_query = runQuery($query);
+   $no_of_rows = count($res_query);
+   echo $no_of_rows . 'no of records have id less than 6';
+  // htmltable();
 }
 catch(PDOException $e)
 {
@@ -15,16 +19,16 @@ catch(PDOException $e)
    $e->getMessage());
 }
 
-function runQuery() {
+function runQuery($query) {
    global $conn;
      try {
-      	    $query = "Select * from accounts where id<6";
+      	    //$query = "Select * from accounts where id<6";
 	    $q = $conn->prepare($query);
 	    $q->execute();
 	    $results = $q->fetchAll();
 	    $q->closeCursor();
-	    //return $results;
-	    print_r($results);
+	    return $results;
+	    //print_r($results);
 	  }
      catch (PDOException $e) {
      	    http_error("500 Internal Server Error\n\n"."There was a SQL
@@ -39,7 +43,7 @@ function http_error($message)
 }      
 function htmltable()
 {
-	$data = runQuery();
+	$rows = runQuery();
 	echo "<table>";
 	foreach ($rows as $row) {
 	   echo "<tr>";
@@ -49,4 +53,5 @@ function htmltable()
 	   echo "</tr>";
 	}
 	echo "</table>";
+}
 ?>
